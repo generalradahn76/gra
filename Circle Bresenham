@@ -1,0 +1,58 @@
+#include <graphics.h>
+#include <stdio.h>
+#include <conio.h>
+
+void drawCircle(int xc, int yc, int x, int y)
+{
+    putpixel(xc + x, yc + y, WHITE);
+    putpixel(xc - x, yc + y, WHITE);
+    putpixel(xc + x, yc - y, WHITE);
+    putpixel(xc - x, yc - y, WHITE);
+    putpixel(xc + y, yc + x, WHITE);
+    putpixel(xc - y, yc + x, WHITE);
+    putpixel(xc + y, yc - x, WHITE);
+    putpixel(xc - y, yc - x, WHITE);
+}
+
+int main()
+{
+    int gd = DETECT, gm;
+    int xc, yc, r;
+    int x = 0, y, d;
+
+    printf("Enter center coordinates (x y): ");
+    scanf("%d%d", &xc, &yc);
+
+    printf("Enter radius: ");
+    scanf("%d", &r);
+
+    initgraph(&gd, &gm, "");
+
+    y = r;
+    d = 3 - 2 * r;
+
+    while(x <= y)
+    {
+        drawCircle(xc, yc, x, y);
+
+        if(d < 0)
+            d = d + 4 * x + 6;
+        else
+        {
+            d = d + 4 * (x - y) + 10;
+            y--;
+        }
+
+        x++;
+    }
+
+  
+    char str[50];
+    sprintf(str, "Center: (%d,%d)", xc, yc);
+    outtextxy(xc + 10, yc + 10, str);
+
+    getch();
+    closegraph();
+
+    return 0;
+}
