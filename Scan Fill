@@ -1,0 +1,63 @@
+#include <graphics.h>
+#include <stdio.h>
+#include <conio.h>
+
+int main()
+{
+    int gd = DETECT, gm;
+    int poly[10] = {200,100, 300,200, 250,300, 150,300, 100,200};
+
+    initgraph(&gd, &gm, "");
+
+    
+    setcolor(WHITE);
+    drawpoly(5, poly);
+
+  
+    int y, x, i, j, temp;
+    int inter[10];
+
+    for(y = 100; y <= 300; y++)
+    {
+        int count = 0;
+
+        for(i = 0; i < 5; i++)
+        {
+            int x1 = poly[2*i];
+            int y1 = poly[2*i + 1];
+
+            int x2 = poly[(2*((i+1)%5))];
+            int y2 = poly[(2*((i+1)%5)) + 1];
+
+            if((y1 < y && y2 >= y) || (y2 < y && y1 >= y))
+            {
+                inter[count++] = x1 + (y - y1) * (x2 - x1) / (y2 - y1);
+            }
+        }
+
+      
+        for(i = 0; i < count - 1; i++)
+        {
+            for(j = i + 1; j < count; j++)
+            {
+                if(inter[i] > inter[j])
+                {
+                    temp = inter[i];
+                    inter[i] = inter[j];
+                    inter[j] = temp;
+                }
+            }
+        }
+
+        
+        for(i = 0; i < count; i += 2)
+        {
+            line(inter[i], y, inter[i + 1], y);
+        }
+    }
+
+    getch();
+    closegraph();
+
+    return 0;
+}
